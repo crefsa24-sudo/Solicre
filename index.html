@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#075e54">
+    <title>Solicitud de Crédito — PDF por WhatsApp</title>
+    <!-- Librerías -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="page">
+        <!-- HEADER -->
+        <header class="hero no-print">
+            <div class="hero-content">
+                <div class="hero-icon">📝</div>
+                <div>
+                    <h1>Solicitud de Crédito</h1>
+                    <p>Llena el formato y envíalo como <strong>PDF</strong> por WhatsApp al <strong>+52 249 110 3620</strong></p>
+                </div>
+            </div>
+        </header>
+
+        <!-- FORMULARIO -->
+        <form id="formCredito" class="no-print" novalidate>
+            <!-- Encabezado -->
+            <section class="card">
+                <h2>🗂️ Encabezado</h2>
+                <div class="grid">
+                    <div>
+                        <label>Fecha <span class="req">*</span></label>
+                        <input type="date" id="encFecha" required>
+                    </div>
+                    <div>
+                        <label>Ejecutivo</label>
+                        <input type="text" id="encEjecutivo" placeholder="Nombre del ejecutivo">
+                    </div>
+                    <div>
+                        <label>Zona</label>
+                        <input type="text" id="encZona" placeholder="Ej. Puebla Centro">
+                    </div>
+                    <div>
+                        <label>Producto</label>
+                        <input type="text" id="encProducto" placeholder="Ej. Crédito personal">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cliente -->
+            <section class="card">
+                <h2>👤 Datos del cliente</h2>
+                <div class="grid">
+                    <div>
+                        <label>Nombre <span class="req">*</span></label>
+                        <input type="text" id="cliNombre" required placeholder="Ej. MARÍA">
+                    </div>
+                    <div>
+                        <label>Apellido paterno <span class="req">*</span></label>
+                        <input type="text" id="cliApPaterno" required placeholder="Ej. LÓPEZ">
+                    </div>
+                    <div>
+                        <label>Apellido materno <span class="req">*</span></label>
+                        <input type="text" id="cliApMaterno" required placeholder="Ej. HERNÁNDEZ">
+                    </div>
+                    <div>
+                        <label>Fecha de nacimiento <span class="req">*</span></label>
+                        <input type="date" id="cliFechaNac" required>
+                    </div>
+                    <div>
+                        <label>Sexo</label>
+                        <div class="radio-grupo">
+                            <label><input type="radio" name="cliSexo" value="M"> Masculino</label>
+                            <label><input type="radio" name="cliSexo" value="F"> Femenino</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Estado civil</label>
+                        <select id="cliEstadoCivil">
+                            <option value="">— Selecciona —</option>
+                            <option>Soltero(a)</option>
+                            <option>Casado(a)</option>
+                            <option>Divorciado(a)</option>
+                            <option>Viudo(a)</option>
+                            <option>Unión libre</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Celular personal <span class="req">*</span></label>
+                        <input type="tel" id="cliCelPersonal" required placeholder="Ej. 249 123 4567">
+                    </div>
+                    <div>
+                        <label>Celular de referencia</label>
+                        <input type="tel" id="cliCelReferencia" placeholder="Opcional">
+                    </div>
+                    <div class="full">
+                        <label>CURP</label>
+                        <input type="text" id="cliCurp" maxlength="18" placeholder="18 caracteres (opcional)" style="text-transform:uppercase;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Domicilio -->
+            <section class="card">
+                <h2>🏠 Domicilio del cliente</h2>
+                <div class="grid">
+                    <div class="full">
+                        <label>Calle y número <span class="req">*</span></label>
+                        <input type="text" id="cliCalle" required placeholder="Ej. Av. Juárez 123, int. 4">
+                    </div>
+                    <div>
+                        <label>Colonia</label>
+                        <input type="text" id="cliColonia" placeholder="Ej. Centro">
+                    </div>
+                    <div>
+                        <label>Municipio <span class="req">*</span></label>
+                        <input type="text" id="cliMunicipio" required placeholder="Ej. Puebla">
+                    </div>
+                    <div>
+                        <label>Estado</label>
+                        <input type="text" id="cliEstado" placeholder="Ej. Puebla">
+                    </div>
+                    <div>
+                        <label>Código postal</label>
+                        <input type="text" id="cliCp" maxlength="5" inputmode="numeric" placeholder="Ej. 72000">
+                    </div>
+                    <div>
+                        <label>Vivienda</label>
+                        <div class="radio-grupo">
+                            <label><input type="radio" name="cliVivienda" value="Propia"> Propia</label>
+                            <label><input type="radio" name="cliVivienda" value="Rentada"> Rentada</label>
+                            <label><input type="radio" name="cliVivienda" value="Familiares"> Familiares</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Tiempo de residencia (años)</label>
+                        <input type="number" id="cliTiempoResidencia" min="0" placeholder="Ej. 4">
+                    </div>
+                    <div>
+                        <label>Email</label>
+                        <input type="email" id="cliEmail" placeholder="correo@ejemplo.com">
+                    </div>
+                    <div>
+                        <label>Nombre de cónyuge</label>
+                        <input type="text" id="conyugeNombre" placeholder="Nombre del cónyuge">
+                    </div>
+                    <div>
+                        <label>Celular del cónyuge</label>
+                        <input type="tel" id="conyugeCelular" placeholder="Opcional">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ingresos Cliente -->
+            <section class="card">
+                <h2>💼 Actividad económica (ingresos) — Cliente</h2>
+                <div class="grid">
+                    <div>
+                        <label>Ocupación</label>
+                        <input type="text" id="cliOcupacion" placeholder="Ej. Cajero(a)">
+                    </div>
+                    <div>
+                        <label>Empresa</label>
+                        <input type="text" id="cliEmpresa" placeholder="Nombre de la empresa">
+                    </div>
+                    <div class="full">
+                        <label>Dirección del trabajo</label>
+                        <input type="text" id="cliDirTrabajo" placeholder="Calle, colonia, ciudad">
+                    </div>
+                    <div>
+                        <label>Sueldo mensual ($)</label>
+                        <input type="number" id="cliSueldo" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Comprueba</label>
+                        <div class="radio-grupo">
+                            <label><input type="radio" name="cliComprueba" value="Sí"> Sí</label>
+                            <label><input type="radio" name="cliComprueba" value="No"> No</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Otros ingresos ($)</label>
+                        <input type="number" id="cliOtrosIngresos" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Total de ingresos ($) — automático</label>
+                        <input type="text" id="cliTotalIngresos" class="total-ro" readonly>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gastos Cliente -->
+            <section class="card">
+                <h2>🧮 Gastos y capacidad — Cliente</h2>
+                <div class="grid">
+                    <div>
+                        <label>Pago mensual de renta o hipoteca ($)</label>
+                        <input type="number" id="cliGastoRenta" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Gasto mensual de alimentos ($)</label>
+                        <input type="number" id="cliGastoAlimentos" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Pago de servicios: luz, agua, cable y tel. ($)</label>
+                        <input type="number" id="cliGastoServicios" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Gasto mensual de transporte: pasaje, gasolina ($)</label>
+                        <input type="number" id="cliGastoTransporte" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Pago de estudio mensual (personal, hijos) ($)</label>
+                        <input type="number" id="cliGastoEstudio" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Otros gastos: vestido, calzado, medicina, deudas ($)</label>
+                        <input type="number" id="cliGastoOtros" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Total de gastos ($) — automático</label>
+                        <input type="text" id="cliTotalGastos" class="total-ro" readonly>
+                    </div>
+                </div>
+                <div class="sub-grupo">
+                    <h3>Capacidad de gastos (cálculos automáticos)</h3>
+                    <div class="grid">
+                        <div>
+                            <label>Total de ingresos por mes ($)</label>
+                            <input type="text" id="capIngresos" readonly class="total-ro">
+                        </div>
+                        <div>
+                            <label>Total de egresos por mes ($)</label>
+                            <input type="text" id="capEgresos" readonly class="total-ro">
+                        </div>
+                        <div>
+                            <label>Capacidad de gastos — diferencia ($)</label>
+                            <input type="text" id="capDiferencia" readonly class="total-ro">
+                        </div>
+                        <div>
+                            <label>Capacidad de pago semanal — ÷4 ($)</label>
+                            <input type="text" id="capSemanal" readonly class="total-ro">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Crédito -->
+            <section class="card">
+                <h2>💵 Crédito solicitado</h2>
+                <div class="grid">
+                    <div>
+                        <label>Monto solicitado ($) <span class="req">*</span></label>
+                        <input type="number" id="montoSolicitado" min="0" step="0.01" required placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Plazo acordado (semanas) <span class="req">*</span></label>
+                        <input type="number" id="plazoSemanas" min="1" required placeholder="Ej. 8">
+                    </div>
+                    <div class="full">
+                        <label>Tipo de operación</label>
+                        <div class="radio-grupo">
+                            <label><input type="radio" name="tipoOperacion" value="Cliente nuevo"> Cliente nuevo</label>
+                            <label><input type="radio" name="tipoOperacion" value="Renovación"> Renovación</label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AVAL -->
+            <section class="card">
+                <h2>🛡️ Datos del AVAL (fiador)</h2>
+                <div class="grid">
+                    <div>
+                        <label>Nombre(s) <span class="req">*</span></label>
+                        <input type="text" id="avalNombre" required placeholder="Ej. JUAN">
+                    </div>
+                    <div>
+                        <label>Apellido paterno <span class="req">*</span></label>
+                        <input type="text" id="avalApPaterno" required placeholder="Ej. PÉREZ">
+                    </div>
+                    <div>
+                        <label>Apellido materno <span class="req">*</span></label>
+                        <input type="text" id="avalApMaterno" required placeholder="Ej. GARCÍA">
+                    </div>
+                    <div>
+                        <label>Fecha de nacimiento <span class="req">*</span></label>
+                        <input type="date" id="avalFechaNac" required>
+                    </div>
+                    <div>
+                        <label>Sexo</label>
+                        <div class="radio-grupo">
+                            <label><input type="radio" name="avalSexo" value="M"> Masculino</label>
+                            <label><input type="radio" name="avalSexo" value="F"> Femenino</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Estado civil</label>
+                        <select id="avalEstadoCivil">
+                            <option value="">— Selecciona —</option>
+                            <option>Soltero(a)</option>
+                            <option>Casado(a)</option>
+                            <option>Divorciado(a)</option>
+                            <option>Viudo(a)</option>
+                            <option>Unión libre</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Celular personal <span class="req">*</span></label>
+                        <input type="tel" id="avalCelPersonal" required placeholder="Ej. 249 765 4321">
+                    </div>
+                    <div>
+                        <label>Celular de referencia</label>
+                        <input type="tel" id="avalCelReferencia" placeholder="Opcional">
+                    </div>
+                    <div class="full">
+                        <label>Email</label>
+                        <input type="email" id="avalEmail" placeholder="correo@ejemplo.com">
+                    </div>
+                    <div class="full">
+                        <label>Calle y número <span class="req">*</span></label>
+                        <input type="text" id="avalCalle" required placeholder="Ej. Calle 5 de Mayo 45">
+                    </div>
+                    <div>
+                        <label>Colonia</label>
+                        <input type="text" id="avalColonia" placeholder="Ej. La Paz">
+                    </div>
+                    <div>
+                        <label>Municipio <span class="req">*</span></label>
+                        <input type="text" id="avalMunicipio" required placeholder="Ej. Puebla">
+                    </div>
+                    <div>
+                        <label>Estado</label>
+                        <input type="text" id="avalEstado" placeholder="Ej. Puebla">
+                    </div>
+                    <div>
+                        <label>Código postal</label>
+                        <input type="text" id="avalCp" maxlength="5" inputmode="numeric" placeholder="Ej. 72160">
+                    </div>
+                    <div>
+                        <label>Vivienda</label>
+                        <div class="radio-grupo">
+                            <label><input type="radio" name="avalVivienda" value="Propia"> Propia</label>
+                            <label><input type="radio" name="avalVivienda" value="Rentada"> Rentada</label>
+                            <label><input type="radio" name="avalVivienda" value="Familiares"> Familiares</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Tiempo de residencia (años)</label>
+                        <input type="number" id="avalTiempoResidencia" min="0" placeholder="Ej. 6">
+                    </div>
+                    <div>
+                        <label>Nombre de cónyuge</label>
+                        <input type="text" id="avalConyugeNombre" placeholder="Nombre del cónyuge">
+                    </div>
+                    <div>
+                        <label>Celular del cónyuge</label>
+                        <input type="tel" id="avalConyugeCelular" placeholder="Opcional">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ingresos Aval -->
+            <section class="card">
+                <h2>💼 Actividad económica (ingresos) — Aval</h2>
+                <div class="grid">
+                    <div>
+                        <label>Ocupación</label>
+                        <input type="text" id="avalOcupacion" placeholder="Ej. Comerciante">
+                    </div>
+                    <div>
+                        <label>Empresa</label>
+                        <input type="text" id="avalEmpresa" placeholder="Nombre de la empresa">
+                    </div>
+                    <div class="full">
+                        <label>Dirección del trabajo</label>
+                        <input type="text" id="avalDirTrabajo" placeholder="Calle, colonia, ciudad">
+                    </div>
+                    <div>
+                        <label>Sueldo mensual ($)</label>
+                        <input type="number" id="avalSueldo" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Comprueba</label>
+                        <div class="radio-grupo">
+                            <label><input type="radio" name="avalComprueba" value="Sí"> Sí</label>
+                            <label><input type="radio" name="avalComprueba" value="No"> No</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Otros ingresos ($)</label>
+                        <input type="number" id="avalOtrosIngresos" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Total de ingresos ($) — automático</label>
+                        <input type="text" id="avalTotalIngresos" class="total-ro" readonly>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gastos Aval -->
+            <section class="card">
+                <h2>🧮 Egresos y capacidad de gastos — Aval</h2>
+                <div class="grid">
+                    <div>
+                        <label>Pago mensual de renta o hipoteca ($)</label>
+                        <input type="number" id="avalGastoRenta" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Gasto mensual de alimentos ($)</label>
+                        <input type="number" id="avalGastoAlimentos" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Pago de servicios: luz, agua, cable y tel. ($)</label>
+                        <input type="number" id="avalGastoServicios" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Gasto mensual de transporte: pasaje, gasolina ($)</label>
+                        <input type="number" id="avalGastoTransporte" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Pago de estudio mensual (personal, hijos) ($)</label>
+                        <input type="number" id="avalGastoEstudio" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Otros gastos: vestido, calzado, medicina, deudas ($)</label>
+                        <input type="number" id="avalGastoOtros" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div>
+                        <label>Total de gastos ($) — automático</label>
+                        <input type="text" id="avalTotalGastos" class="total-ro" readonly>
+                    </div>
+                </div>
+                <div class="sub-grupo">
+                    <h3>Capacidad de gastos (cálculos automáticos)</h3>
+                    <div class="grid">
+                        <div>
+                            <label>Total de ingresos por mes ($)</label>
+                            <input type="text" id="avalCapIngresos" readonly class="total-ro">
+                        </div>
+                        <div>
+                            <label>Total de egresos por mes ($)</label>
+                            <input type="text" id="avalCapEgresos" readonly class="total-ro">
+                        </div>
+                        <div>
+                            <label>Capacidad de gastos — diferencia ($)</label>
+                            <input type="text" id="avalCapDiferencia" readonly class="total-ro">
+                        </div>
+                        <div>
+                            <label>Capacidad de pago semanal — ÷4 ($)</label>
+                            <input type="text" id="avalCapSemanal" readonly class="total-ro">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Aceptación -->
+            <section class="card">
+                <h2>✅ Aceptación</h2>
+                <label style="display:flex;gap:8px;align-items:flex-start;font-weight:500;">
+                    <input type="checkbox" id="acepto" required style="margin-top:3px;width:18px;height:18px;">
+                    <span>Declaro que los datos proporcionados son verídicos y autorizo a consultar mi historial crediticio y tratar mi información conforme a la Ley de Protección de Datos Personales. <span class="req">*</span></span>
+                </label>
+            </section>
+
+            <!-- Botones -->
+            <div class="acciones">
+                <button type="submit" class="btn btn-wa" id="btnEnviar">📤 Enviar PDF por WhatsApp</button>
+                <button type="button" class="btn btn-pdf" id="btnDescargar">📥 Descargar PDF</button>
+                <button type="button" class="btn btn-sec" onclick="window.print()">🖨️ Imprimir</button>
+            </div>
+
+            <div class="aviso" id="aviso" style="display:none;"></div>
+        </form>
+
+        <!-- VISTA PREVIA DEL PDF -->
+        <section class="card no-print">
+            <h2>👁️ Vista previa del PDF</h2>
+            <p style="font-size:.85rem;color:var(--muted);margin-bottom:12px;">Se actualiza automáticamente mientras llenas.</p>
+            <div class="pdf-wrap">
+                <div id="pdf-page">
+                    <!-- El contenido del PDF se genera con JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <footer class="no-print">Solicitud de crédito · Envío en PDF vía WhatsApp al +52 249 110 3620</footer>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
