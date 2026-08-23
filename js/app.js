@@ -315,70 +315,107 @@
             }, 8000);
         }
     }
-
-    // ========================================
-    // ENVIAR POR WHATSAPP
-    // ========================================
-    function enviarWhatsApp() {
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        if (!$('acepto').checked) {
-            mostrarAviso('⚠️ Debes marcar la casilla de <strong>aceptación</strong> para enviar.', false);
-            return;
-        }
-
-        btnEnviar.disabled = true;
-        btnEnviar.textContent = '⏳ Generando PDF…';
-
-        var texto = resumenMensaje();
-
-        generarPDF().then(function (blob) {
-            var file = new File([blob], nombreArchivo(), { type: 'application/pdf' });
-
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                return navigator.share({
-                    files: [file],
-                    title: 'Solicitud de Crédito',
-                    text: texto
-                }).then(function () {
-                    mostrarAviso('✅ Se abrió el menú de compartir: elige <strong>WhatsApp</strong>, selecciona el contacto y envía el PDF.', true);
-                });
-            }
-
-            throw new Error('share-fallback');
-        }).then(function () {
-            btnEnviar.disabled = false;
-            btnEnviar.textContent = '📤 Enviar PDF por WhatsApp';
-        }).catch(function (e) {
-            if (e && e.name === 'AbortError') {
-                btnEnviar.disabled = false;
-                btnEnviar.textContent = '📤 Enviar PDF por WhatsApp';
-                return;
-            }
-
-            if (e && e.message === 'share-fallback') {
-                // Fallback: descargar y abrir WhatsApp
-                descargarPDF();
-                window.open('https://wa.me/' + NUMERO + '?text=' + encodeURIComponent(texto), '_blank');
-
-                mostrarAviso(
-                    '📎 Este navegador <strong>no puede adjuntar el PDF automáticamente</strong>.<br>' +
-                    'Se descargó el PDF y se abrió WhatsApp al número <strong>+52 249 110 3620</strong>.<br>' +
-                    'Adjunta el archivo descargado en la conversación y pulsa enviar.',
-                    false
-                );
-            } else {
-                mostrarAviso('❌ ' + (e && e.message ? e.message : 'No se pudo generar el PDF.'), false);
-            }
-
-            btnEnviar.disabled = false;
-            btnEnviar.textContent = '📤 Enviar PDF por WhatsApp';
-        });
+// ========================================
+// ENVIAR POR WHATSAPP (VERSIÓN MEJORADA)
+// ========================================
+function enviarWhatsApp() {
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
     }
 
+    if (!$('acepto').checked) {
+        mostrarAviso('⚠️ Debes marcar la casilla de <strong>aceptación</strong> para enviar.', false);
+        return;
+    }
+
+    btnEnviar.disabled = true;
+    btnEnviar.textContent = '⏳ Generando PDF…';
+
+    var texto = resumenMensaje();
+
+    generarPDF().then(function (blob) {
+        var file = new File([blob], nombreArchivo(), { type: 'application/pdf' });
+
+        // ========================================
+        // 1. INTENTAR COMPARTIR (Android/iPhone)
+        // ========================================
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            return navigator.share({
+                files: [file],
+                title: 'Solicitud de Crédito',
+                text: texto
+            }).then(function () {
+                mostrarAviso('✅ PDF enviado por WhatsApp correctamente.', true);
+            }).catch(function (err) {
+                if (err.name === 'AbortError') {
+                    mostrarAviso('ℹ️ Compartir cancelado.', true);
+                    return;
+                }
+                throw err;
+            });
+        }
+
+        // ========================================
+        // 2. FALLBACK: DESCARGAR + ABRIR WHATSAPP
+        // ========================================
+        throw new Error('share-fallback');
+
+    }).then(function () {
+        btnEnviar.disabled = false;
+        btnEnviar.textContent = '📤 Enviar PDF por WhatsApp';
+
+    }).catch(function (e) {
+        // ========================================
+        // 3. ERROR: MANEJO DE PERMISOS
+        // ========================================
+        if (e && e.message === 'share-fallback') {
+            // Descargar el PDF
+            generarPDF().then(function (blob) {
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = nombreArchivo();
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                // Abrir WhatsApp con el mensaje
+                var url = 'https://wa.me/' + NUMERO + '?text=' + encodeURIComponent(texto);
+                window.open(url, '_blank');
+
+                mostrarAviso(
+                    '📎 <strong>PDF descargado</strong> y WhatsApp abierto.<br>' +
+                    '📤 <strong>Adjunta el PDF</strong> en la conversación y envía.<br>' +
+                    '📱 Número: <strong>+52 249 110 3620</strong>',
+                    false
+                );
+            });
+
+        } else if (e && e.name === 'AbortError') {
+            // Usuario canceló
+            mostrarAviso('ℹ️ Cancelaste el envío.', true);
+
+        } else if (e && e.message && e.message.includes('permission')) {
+            // Error de permisos
+            mostrarAviso(
+                '❌ <strong>Error de permisos.</strong><br>' +
+                '📱 Abre WhatsApp Web y escanea el código QR desde tu celular.<br>' +
+                '💻 O usa un <strong>dispositivo móvil</strong> para enviar el PDF directamente.',
+                false
+            );
+
+            // Abrir WhatsApp Web como alternativa
+            window.open('https://web.whatsapp.com/', '_blank');
+
+        } else {
+            mostrarAviso('❌ ' + (e && e.message ? e.message : 'No se pudo generar el PDF.'), false);
+        }
+
+        btnEnviar.disabled = false;
+        btnEnviar.textContent = '📤 Enviar PDF por WhatsApp';
+    });
+}
+   
     // ========================================
     // EVENTOS
     // ========================================
