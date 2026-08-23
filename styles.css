@@ -411,4 +411,47 @@ select:focus {
 #pdf-page .firma .li {
     border-bottom: 1px solid #000;
     height: 35px;
-    width
+    width: 80%;
+    margin: 0 auto;
+}
+
+#pdf-page .firma b {
+    text-transform: uppercase;
+    font-size: 9px;
+    color: #1e3a5f;
+    display: block;
+    margin-top: 4px;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-top: 18px;
+}
+
+/* ========================================
+   IMPRESIÓN / NO PRINT
+   ======================================== */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    body {
+        background: #fff;
+        padding: 0;
+    }
+    .page {
+        max-width: 100%;
+    }
+    #pdf-page {
+        border: none;
+        margin: 0;
+        width: auto;
+        box-shadow: none;
+        padding: 20px;
+    }
+}
