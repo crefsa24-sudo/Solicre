@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solicitud de Crédito — Formato PDF por WhatsApp</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+<div class="pagina">
+
+  <header class="hero ui no-print"> … encabezado de la interfaz … </header>
+
+  <form id="formCredito" class="ui no-print" novalidate>
+    <section class="card"><h2>🗂️ Encabezado del documento</h2> … fecha/ejecutivo/zona/producto … </section>
+    <section class="card"><h2>👤 Datos del cliente</h2> … 10 campos … </section>
+    <section class="card"><h2>🏠 Domicilio del cliente</h2> … </section>
+    <section class="card"><h2>💼 Actividad económica (ingresos) — Cliente</h2> … </section>
+    <section class="card"><h2>🧮 Egresos y capacidad de gastos — Cliente</h2> … </section>
+    <section class="card"><h2>🛡️ Datos del AVAL</h2> … </section>
+    <section class="card"><h2>💼 Actividad económica — Aval</h2> … </section>
+    <section class="card"><h2>🧮 Egresos — Aval</h2> … </section>
+    <!-- botones: Enviar PDF por WhatsApp · Descargar PDF · Imprimir -->
+  </form>
+
+  <!-- ===== Documento tamaño carta (vista previa que se exporta a PDF) ===== -->
+  <section class="card ui no-print"><h2>👁️ Vista previa del documento</h2>
+    <div id="pdf-page">
+      <!-- Encabezado: LOGO + TÍTULO -->
+      <div class="p-head">
+        <div class="logo-box">Logo de la empresa</div>
+        <div class="p-head-txt">
+          <div class="p-title">SOLICITUD DE CRÉDITO</div>
+          <div class="p-subtitle">FORMATO OFICIAL DE SOLICITUD</div>
+        </div>
+      </div>
+
+      <!-- Tabla cuadriculada (una por sección) -->
+      <table class="p-grid">
+        <tr>
+          <td class="lbl">Fecha</td><td class="val" id="pfFecha"></td>
+          <td class="lbl">Ejecutivo</td><td class="val" id="pfEjecutivo"></td>
+          <td class="lbl">Zona</td><td class="val" id="pfZona"></td>
+          <td class="lbl">Producto</td><td class="val" id="pfProducto"></td>
+        </tr>
+      </table>
+
+      <table class="p-grid">
+        <tr><td class="lbl sec" colspan="8">Datos del cliente</td></tr>
+        <tr>
+          <td class="lbl">Nombre</td><td class="val" id="pfCliNombre"></td>
+          <td class="lbl">Apellido paterno</td><td class="val" id="pfCliApPaterno"></td>
+          <td class="lbl">Apellido materno</td><td class="val" id="pfCliApMaterno"></td>
+          <td class="lbl">CURP</td><td class="val" id="pfCliCurp"></td>
+        </tr>
+        <!-- …más filas: nacimiento/sexo/estado civil, celulares, domicilio,
+             vivienda (cajas X), email/cónyuge, actividad económica,
+             egresos + capacidad, monto/plazo/cliente nuevo/renovación,
+             secciones del AVAL (idénticas) y firmas… -->
+      </table>
+
+      <div class="p-firmas">
+        <div class="f"><div class="linea"></div><b>FIRMA DEL CLIENTE</b></div>
+        <div class="f"><div class="linea"></div><b>FIRMA DEL AVAL</b></div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
