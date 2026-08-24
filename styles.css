@@ -1,0 +1,169 @@
+/* ============================================================
+   SOLICITUD DE CRÉDITO — ESTILOS (Parte 2 de 3)
+   - Interfaz de llenado: azul formal, tarjetas responsive
+   - Documento PDF: hoja TAMAÑO CARTA, cuadrícula azul,
+     rubros azul con letras blancas, datos en blanco/negro
+   ============================================================ */
+
+:root{
+  --azul-osc:#1e3a8a;   /* rubros / encabezados */
+  --azul-med:#2563eb;   /* acentos */
+  --azul-claro:#dbeafe; /* fondos suaves */
+  --wa:#25d366;         /* botón WhatsApp */
+  --wa-dark:#075e54;
+  --bg:#eef2f7;
+  --card:#ffffff;
+  --texto:#111827;
+  --borde:#c7d2fe;
+  --error:#dc2626;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--texto);
+  line-height:1.5;
+  padding:18px 14px 80px;
+}
+
+.pagina{max-width:960px;margin:0 auto;}
+
+/* ---------- Encabezado de la interfaz ---------- */
+.hero{
+  background:linear-gradient(135deg,#1e3a8a,#2563eb);
+  color:#fff;border-radius:16px;padding:22px 24px;margin-bottom:20px;
+  display:flex;align-items:center;gap:18px;
+  box-shadow:0 8px 24px rgba(30,58,138,.28);
+}
+.hero-logo{
+  width:74px;height:74px;flex:none;
+  border:2px dashed rgba(255,255,255,.65);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.12);
+  font-size:.68rem;text-align:center;letter-spacing:1px;color:#fff;
+}
+.hero h1{font-size:1.4rem;letter-spacing:.5px;margin-bottom:3px;}
+.hero p{opacity:.93;font-size:.94rem;}
+
+/* ---------- Tarjetas del formulario ---------- */
+.card{background:var(--card);border-radius:14px;padding:20px 18px;margin-bottom:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid #e5e7eb;}
+.card h2{font-size:1.02rem;color:var(--azul-osc);
+  border-bottom:2px solid var(--azul-claro);padding-bottom:9px;margin-bottom:14px;}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.full{grid-column:1/-1;}
+@media(max-width:640px){.grid{grid-template-columns:1fr;}}
+
+label{display:block;font-size:.84rem;font-weight:600;color:#374151;margin-bottom:4px;}
+label .req{color:var(--error);}
+
+input[type=text],input[type=email],input[type=tel],input[type=date],
+input[type=number],select{
+  width:100%;padding:10px 11px;border:1.5px solid var(--borde);border-radius:8px;
+  font-size:.95rem;background:#fff;transition:border-color .15s,box-shadow .15s;
+}
+input:focus,select:focus{outline:none;border-color:var(--azul-med);
+  box-shadow:0 0 0 3px rgba(37,99,235,.15);}
+input.total-ro{background:#eff6ff;border-color:#93c5fd;font-weight:700;color:#1e3a8a;}
+.radio-grupo{display:flex;gap:14px;flex-wrap:wrap;align-items:center;padding-top:6px;}
+.radio-grupo label{display:flex;gap:6px;align-items:center;font-weight:500;margin:0;font-size:.9rem;}
+.radio-grupo input{width:17px;height:17px;}
+.hint{font-size:.82rem;color:#6b7280;margin-bottom:12px;}
+
+/* ---------- Botones ---------- */
+.acciones{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:22px 0;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;
+  border:none;border-radius:999px;font-size:.98rem;font-weight:700;cursor:pointer;
+  transition:transform .1s,box-shadow .15s;}
+.btn:active{transform:scale(.98);}
+.btn:disabled{opacity:.6;cursor:wait;}
+.btn-wa{background:var(--wa);color:#fff;box-shadow:0 6px 16px rgba(37,211,102,.35);}
+.btn-prim{background:var(--azul-osc);color:#fff;box-shadow:0 6px 16px rgba(30,58,138,.3);}
+.btn-sec{background:#eef2ff;color:#3730a3;border:2px solid #6366f1;}
+
+.aviso{background:#fffbeb;border:1px solid #fcd34d;color:#92400e;
+  border-radius:10px;padding:12px 14px;font-size:.88rem;margin:14px 0;}
+.aviso strong{color:#78350f;}
+.aviso.ok{background:#f0fdf4;border-color:#86efac;color:#14532d;}
+
+/* ============================================================
+   DOCUMENTO: HOJA TAMAÑO CARTA (8.5" x 11" = 816 x 1056 px)
+   Cuadrícula azul + celdas azules/blancas
+   ============================================================ */
+.pdf-wrap{overflow-x:auto;padding:8px 0;}
+#pdf-page{
+  width:816px;                 /* 8.5in @96dpi */
+  min-height:1056px;           /* 11in @96dpi  */
+  background-color:#ffffff;
+  /* Cuadrícula azul sutil */
+  background-image:
+    linear-gradient(rgba(30,58,138,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,58,138,.07) 1px, transparent 1px);
+  background-size:8px 8px;
+  color:#000;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:9px;
+  padding:16px 18px 20px;
+  margin:0 auto;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  border:1px solid #93c5fd;
+}
+
+/* ---------- Encabezado: logo + título ---------- */
+.p-head{display:flex;gap:16px;align-items:center;margin-bottom:10px;}
+.logo-box{
+  width:118px;height:92px;flex:none;
+  border:2px solid var(--azul-osc);background:#fff;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-size:8.5px;color:#6b7280;letter-spacing:1px;font-weight:bold;
+}
+.p-head-txt{flex:1;text-align:center;}
+.p-title{
+  font-size:23px;font-weight:900;letter-spacing:2.5px;color:var(--azul-osc);
+  border-bottom:3px double var(--azul-osc);padding-bottom:4px;
+  text-shadow:0 1px 0 #fff;
+}
+.p-subtitle{margin-top:3px;font-size:10px;letter-spacing:4px;color:#1e3a8a;font-weight:bold;}
+
+/* ---------- Tablas cuadriculadas ---------- */
+table.p-grid{width:100%;border-collapse:collapse;margin-bottom:4px;table-layout:fixed;}
+td{border:1px solid #1e40af;padding:2.5px 5px;vertical-align:middle;overflow:hidden;}
+td.lbl{                    /* rubro: AZUL + letras BLANCAS */
+  background:var(--azul-osc);color:#fff;font-weight:bold;
+  font-size:7.6px;text-transform:uppercase;letter-spacing:.4px;line-height:1.25;
+}
+td.lbl.sec{                /* banda de sección */
+  background:#172554;color:#fff;text-align:center;font-size:8.8px;
+  letter-spacing:1.2px;padding:4px 6px;
+}
+td.lbl.total{background:#172554;font-size:8.2px;}
+td.val{                    /* dato: BLANCO + letras NEGRAS */
+  background:#ffffff;color:#000;font-size:9.6px;font-weight:600;
+  min-height:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+td.val.total{color:#1e3a8a;font-weight:900;background:#eff6ff;}
+
+/* Casillas de verificación (X) */
+.caja{display:inline-block;width:9px;height:9px;border:1.5px solid var(--azul-osc);
+  text-align:center;line-height:9px;font-size:10px;font-weight:900;
+  color:var(--azul-osc);vertical-align:middle;margin-right:2px;}
+
+/* ---------- Firmas ---------- */
+.p-firmas{display:flex;gap:48px;margin-top:26px;}
+.p-firmas .f{flex:1;text-align:center;}
+.p-firmas .linea{border-bottom:1.5px solid var(--azul-osc);height:46px;}
+.p-firmas b{display:block;margin-top:4px;font-size:8.6px;letter-spacing:1.4px;color:var(--azul-osc);}
+
+footer{text-align:center;color:#6b7280;font-size:.8rem;margin-top:18px;}
+
+/* ---------- Impresión (respaldo) ---------- */
+@media print{
+  .ui,.no-print{display:none!important;}
+  body{background:#fff;padding:0;}
+  .pagina{max-width:100%;}
+  .pdf-wrap{padding:0;overflow:visible;}
+  #pdf-page{width:auto;min-height:0;margin:0;border:none;box-shadow:none;}
+}
